@@ -1,0 +1,14 @@
+{
+  "name": "node-mimic",
+  "version": "0.0.1",
+  "description": "Wrap the Mimic Text Synthesis library",
+  "author": "Giovanni Campagna <gcampagn@cs.stanford.edu>",
+  "contributors": [],
+  "dependencies": {
+    "bindings": "^1.2.1"
+  },
+  "engines": {
+    "node": ">= 6.10.0"
+  },
+  "main": "./lib/mimic"
+}
