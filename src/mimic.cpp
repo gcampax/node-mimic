@@ -50,9 +50,8 @@ template<class C>
 class AutoObjectWrapRef;
 
 template< class R >
-class AsyncTask {
+class AsyncTask : private uv_work_t {
 private:
-    uv_work_t work;
     Isolate *isolate;
     std::function<R()> task;
     R result;
@@ -60,12 +59,12 @@ private:
     Global<Function> callback;
 
     static void DoWork(uv_work_t* req) {
-        AsyncTask *self = reinterpret_cast<AsyncTask*>(reinterpret_cast<uint8_t*>(req) - offsetof(AsyncTask, work));
+        AsyncTask *self = static_cast<AsyncTask*>(req);
         self->result = self->task();
     }
 
     static void CompleteWork(uv_work_t* req, int res) {
-        AsyncTask *self = reinterpret_cast<AsyncTask*>(reinterpret_cast<uint8_t*>(req) - offsetof(AsyncTask, work));
+        AsyncTask *self = static_cast<AsyncTask*>(req);
         Isolate *isolate = self->isolate;
         R result = std::move(self->result);
 
@@ -88,7 +87,7 @@ public:
     template <class F, class G>
     static void Schedule( Isolate *isolate, F&& f, G&& g, Local<Function> callback_ ) {
         AsyncTask *self = new AsyncTask(isolate, std::forward<F>(f), std::forward<G>(g), callback_);
-        uv_queue_work(uv_default_loop(), &self->work, &DoWork, &CompleteWork);
+        uv_queue_work(uv_default_loop(), self, &DoWork, &CompleteWork);
     }
 };
 
