@@ -9,9 +9,9 @@
 #include <cstdint>
 
 #include <uv.h>
-#include <node/node.h>
-#include <node/node_object_wrap.h>
-#include <node/node_buffer.h>
+#include <node.h>
+#include <node_object_wrap.h>
+#include <node_buffer.h>
 #include <v8.h>
 
 #include <mimic.h>
