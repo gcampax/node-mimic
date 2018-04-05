@@ -22,3 +22,7 @@ Then you can build the module with:
             let buffer = result.buffer; // A standard Buffer, in PCM S16NE format
         });
     });
+
+## Licence:
+
+See [LICENCE].
