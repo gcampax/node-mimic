@@ -1,6 +1,6 @@
 {
   "name": "node-mimic",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "BSD-3-Clause",
   "description": "Wrap the Mimic Text Synthesis library",
   "author": "Giovanni Campagna <gcampagn@cs.stanford.edu>",
