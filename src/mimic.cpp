@@ -56,9 +56,9 @@ v8_to_string(const Local<v8::String>& s)
     return stdstring;
 }
 
-static Local<String> new_string(Isolate *isolate, const char *msg)
+static Local<String> new_string(Isolate *isolate, const char *msg, NewStringType string_type = NewStringType::kNormal)
 {
-    return String::NewFromOneByte(isolate, (const uint8_t*)msg);
+    return String::NewFromOneByte(isolate, (const uint8_t*)msg, string_type).ToLocalChecked();
 }
 
 static void throw_exception(Isolate *isolate, const char *msg)
@@ -147,11 +147,11 @@ public:
 static Local<Object> wave_to_js(Isolate *isolate, cst_wave *wave)
 {
     Local<Object> obj = Object::New(isolate);
-    obj->Set(new_string(isolate, "sampleRate"), Integer::New(isolate, wave->sample_rate));
-    obj->Set(new_string(isolate, "numChannels"), Integer::New(isolate, wave->num_channels));
+    obj->Set(new_string(isolate, "sampleRate", NewStringType::kInternalized), Integer::New(isolate, wave->sample_rate));
+    obj->Set(new_string(isolate, "numChannels", NewStringType::kInternalized), Integer::New(isolate, wave->num_channels));
 
     size_t buffer_size = sizeof(int16_t) * wave->num_channels * wave->num_samples;
-    obj->Set(new_string(isolate, "buffer"), node::Buffer::New(isolate, (char*)wave->samples, buffer_size, [](char *data, void *hint) {
+    obj->Set(new_string(isolate, "buffer", NewStringType::kInternalized), node::Buffer::New(isolate, (char*)wave->samples, buffer_size, [](char *data, void *hint) {
         delete_wave((cst_wave*)hint);
     }, wave).ToLocalChecked());
 

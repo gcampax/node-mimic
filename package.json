@@ -13,6 +13,11 @@
   },
   "main": "./lib/mimic",
   "devDependencies": {
-    "wav": "^1.0.1"
-  }
+      "wav": "^1.0.1"
+  },
+  "scripts": {
+      "lint": "eslint ./lib",
+      "test": "nyc node ./test/main",
+      "coverage": "nyc report --reporter=text-lcov | coveralls"
+   }
 }
