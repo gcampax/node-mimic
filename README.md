@@ -2,6 +2,8 @@
 
 Node.js wrappers for https://github.com/MycroftAI/mimic (voice synthesis software)
 
+**Mimic is no longer in active development upstream, so this wrapper is not in active development either.**
+
 ## Building
 
 The module assumes that you installed mimic somewhere where pkg-config can find it.
